@@ -159,13 +159,14 @@ class Instructor extends Lambdasian{ // constructor calls the parent constructor
     this.favLanguage = unicorn.favLanguage;
     this.catchPhrase = unicorn.catchPhrase;
   }
-  demo(){  //  `demo` receives a `subject` string as an arg
-    this.subject = "";
-    return 'Today we are learning about ${this.subject}';  //  returns the str
+  demo(subject){  //  `demo` receives a `subject` string as an arg
+    this.subject = subject;
+    return `Today we are learning about ${this.subject}`;  //  returns the str
   }
   grade(student, subject){  //  `grade` receives a `student` object and a `subject` string as arg
-    this.student = {student};
-    return '${this.student.name} receives a perfect score on ${this.subject}';  //  returns str
+    this.name = student;
+    this.subject = subject;
+    return `${this.name} receives a perfect score on ${this.subject}`;  //  returns str
   }
 }
 
@@ -189,16 +190,18 @@ class Student extends Lambdasian{
     super(dragon);
     this.previousBackground = dragon.previousBackground;
     this.className = dragon.className;
-    this.favSujects = dragon.favSujects;
+    this.favSubjects = dragon.favSubjects;
   }
   listSubjects(){
-    return `Loving HTML, CSS, JS!`;
+    return `${this.favSubjects}`;
   }
-  PRAssignment(){
-    return `${student.name} has submitted a PR for ${this.subject}`;
+  PRAssignment(subject){
+    this.subject = subject;
+    return `${this.name} has submitted a PR for ${this.subject}`;
   }
   sprintChallenge(){
-    return `${student.name} has begun sprint challenge on ${subject}`;
+    this.subject = subject;
+    return `${this.name} has begun sprint challenge on ${this.subject}`;
   }
 }  
   
@@ -222,10 +225,13 @@ class ProjectManager extends Instructor{
     this.favInstructor = deathEater.favInstructor;
   }
   standUp(channel){
+    this.channel = channel;
     return `${this.name} announces to ${this.channel}, @channel standy times!`;
   }
-  debugCode(){
-    return `${this.name} debugs ${student.name}'s code on ${this.subject}`;
+  debugsCode(student, subject){
+    this.student = student;
+    this.subject = subject;
+    return `${this.name} debugs ${this.student.name}'s code on ${this.subject}`;
   }
 }
 
