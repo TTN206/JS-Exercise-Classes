@@ -164,9 +164,7 @@ class Instructor extends Lambdasian{ // constructor calls the parent constructor
     return `Today we are learning about ${this.subject}`;  //  returns the str
   }
   grade(student, subject){  //  `grade` receives a `student` object and a `subject` string as arg
-    this.name = student;
-    this.subject = subject;
-    return `${this.name} receives a perfect score on ${this.subject}`;  //  returns str
+    return `${student.name} receives a perfect score on ${subject}`;  //  returns str
   }
 }
 
@@ -195,13 +193,13 @@ class Student extends Lambdasian{
   listSubjects(){
     return `${this.favSubjects}`;
   }
-  PRAssignment(subject){
-    this.subject = subject;
-    return `${this.name} has submitted a PR for ${this.subject}`;
+  PRAssignment(subject){ //subjuect is arg
+    return `${this.name} has submitted a PR for ${subject}`;
   }
-  sprintChallenge(){
-    this.subject = subject;
-    return `${this.name} has begun sprint challenge on ${this.subject}`;
+  sprintChallenge(subject){
+    console.log(this.name);
+    return `${this.name} has begun sprint challenge on ${subject}`;
+    
   }
 }  
   
@@ -225,13 +223,11 @@ class ProjectManager extends Instructor{
     this.favInstructor = deathEater.favInstructor;
   }
   standUp(channel){
-    this.channel = channel;
-    return `${this.name} announces to ${this.channel}, @channel standy times!`;
+    return `${this.name} announces to ${channel}, @channel standy times!`;
   }
   debugsCode(student, subject){
-    this.student = student;
-    this.subject = subject;
-    return `${this.name} debugs ${this.student.name}'s code on ${this.subject}`;
+    console.log(student);
+    return `${this.name} debugs ${student.name}'s code on ${subject}`;
   }
 }
 
