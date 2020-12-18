@@ -41,9 +41,26 @@ class Airplane {
           + It should return a string with `name` and `age`. Example: "Mary, 50"
   */
   
- class Person {
-    
+class Person {
+  constructor(argName, argAge){
+    this.name = argName;
+    this.age = argAge;
+    this.stomach = [];
   }
+  eat(item){
+    if(this.stomach.length < 10){
+      this.stomach.push(item);
+    }else{
+      return `You need to shit before you can eat!`;
+    } 
+  }
+  poop(){
+    this.stomach = [];
+  }
+  toString(){
+    return `${this.name}, ${this.age}`;
+  }
+}
   
   /*
     TASK 2
@@ -59,10 +76,37 @@ class Airplane {
           + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
   */
   
- class Car {
-    
+class Car {
+  constructor(model, milesPerGallon){
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0;
   }
-  
+  fill(gallons){      // ability to get fueled with a `.fill(gallons)` method. Add the gallons to `tank`
+    this.tank += gallons;
+  }
+  drive( distance ){      // ability to `.drive(distance)`. The distance driven:
+    if(distance >= this.tank * this.milesPerGallon){      // `tank` to go down taking `milesPerGallon` into account.
+      this.odometer += this.tank * this.milesPerGallon;      // the `odometer` to go up.
+      this.tank = 0;
+      return `I ran out of fuel at ${this.odometer} miles!`; // return a string "I ran out of fuel at x miles!"
+    } 
+    else{    // if not @ 0, business as usual
+      this.odometer += distance;
+      this.tank = ((this.tank * this.milesPerGallon) - distance) / this.milesPerGallon; // math is hard, cannot figure out which params to use
+    }
+  }
+}
+
+//// From YESTERDAYS ASSINGMENT /////
+// if(this.tank.length === 0){  // runs out of `fuel`
+// return `I ran out of fuel at ${this.odometer} miles!"`; // return a string "I ran out of fuel at x miles!"
+// }else{
+// this.tank -= distance/this.milesPerGallon;
+// }
+
+
   /*
     TASK 3
       - Write a Lambdasian class.
@@ -75,10 +119,25 @@ class Airplane {
           + Speaking should return a phrase `Hello my name is {name}, I am from {location}`.
           + {name} and {location} of course come from the instance's own properties.
   */
- class Lambdasian {
-    
+class Lambdasian {
+  constructor(obj){ // constructor takes a single argument - an object(anylabelyouwant)
+    this.name = obj.name;  // initialize `name`, `age` and `location` properties
+    this.age = obj.age;
+    this.location = obj.location;
   }
-  
+  speak(){
+    return `Hello my name is ${this.name}, I am from ${this.location}`; // speak returns a str
+  }
+  // console.log(speak);
+}
+const dude = new Lambdasian({
+  name:"Harry Potter",
+  age:12,
+  location:"Under The Staircase"
+});
+// console.log(dude);
+
+ 
   /*
     TASK 4
       - Write an Instructor class extending Lambdasian.
@@ -93,9 +152,22 @@ class Airplane {
           + `demo` receives a `subject` string as an argument and returns the phrase 'Today we are learning about {subject}' where subject is the param passed in.
           + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
   */
- class Instructor {
+class Instructor extends Lambdasian{ // constructor calls the parent constructor passing it what it needs.
+  constructor(unicorn){
+    super(unicorn); 
+    this.specialty = unicorn.specialty;//initialize `specialty`, `favLanguage` and `catchPhrase` 
+    this.favLanguage = unicorn.favLanguage;
+    this.catchPhrase = unicorn.catchPhrase;
+  }
+  demo(subject){  //  `demo` receives a `subject` string as an arg
+    this.subject = subject;
+    return `Today we are learning about ${this.subject}`;  //  returns the str
+  }
+  grade(student, subject){  //  `grade` receives a `student` object and a `subject` string as arg
+    return `${student.name} receives a perfect score on ${subject}`;  //  returns str
+  }
+}
 
- }
   /*
     TASK 5
       - Write a Student class extending Lambdasian.
@@ -111,9 +183,25 @@ class Airplane {
           + `PRAssignment` a method that receives a subject as an argument and returns `student.name has submitted a PR for {subject}`
           + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
   */
- class Student {
-     
- }
+class Student extends Lambdasian{
+  constructor(dragon){
+    super(dragon);
+    this.previousBackground = dragon.previousBackground;
+    this.className = dragon.className;
+    this.favSubjects = dragon.favSubjects;
+  }
+  listSubjects(){
+    return `${this.favSubjects}`;
+  }
+  PRAssignment(subject){ //subjuect is arg
+    return `${this.name} has submitted a PR for ${subject}`;
+  }
+  sprintChallenge(subject){
+    console.log(this.name);
+    return `${this.name} has begun sprint challenge on ${subject}`;
+    
+  }
+}  
   
   /*
     TASK 6
@@ -128,10 +216,22 @@ class Airplane {
           + `standUp` a method that takes in a slack channel and returns `{name} announces to {channel}, @channel standy times!`
           + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
   */
- class ProjectManager {
-     
- }
-  /*
+class ProjectManager extends Instructor{
+  constructor(deathEater){
+    super(deathEater);
+    this.gradClassName = deathEater.gradClassName;
+    this.favInstructor = deathEater.favInstructor;
+  }
+  standUp(channel){
+    return `${this.name} announces to ${channel}, @channel standy times!`;
+  }
+  debugsCode(student, subject){
+    console.log(student);
+    return `${this.name} debugs ${student.name}'s code on ${subject}`;
+  }
+}
+
+/*
     STRETCH PROBLEM (no tests!)
       - Extend the functionality of the Student by adding a prop called grade and setting it equal to a number between 1-100.
       - Now that our students have a grade build out a method on the Instructor (this will be used by _BOTH_ instructors and PM's) that will randomly add or subtract points to a student's grade. _Math.random_ will help.
